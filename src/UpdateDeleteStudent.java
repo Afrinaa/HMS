@@ -108,12 +108,12 @@ public class UpdateDeleteStudent extends javax.swing.JFrame {
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(95, 259, -1, -1));
 
         jLabel7.setFont(new java.awt.Font("Century", 1, 14)); // NOI18N
-        jLabel7.setText("Department");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(95, 300, -1, -1));
+        jLabel7.setText("Mobile");
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(95, 300, 70, -1));
 
         jLabel8.setFont(new java.awt.Font("Century", 1, 14)); // NOI18N
-        jLabel8.setText("Int-Sec");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(95, 341, -1, -1));
+        jLabel8.setText("Dept(Int-Sec)");
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(95, 341, 110, -1));
 
         jLabel9.setFont(new java.awt.Font("Century", 1, 14)); // NOI18N
         jLabel9.setText("Room Number");
@@ -171,16 +171,31 @@ public class UpdateDeleteStudent extends javax.swing.JFrame {
         jButton3.setFont(new java.awt.Font("Century", 1, 14)); // NOI18N
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Pictures/update.png"))); // NOI18N
         jButton3.setText("Update");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(244, 460, -1, -1));
 
         jButton4.setFont(new java.awt.Font("Century", 1, 14)); // NOI18N
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Pictures/delete.png"))); // NOI18N
         jButton4.setText("Delete");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(363, 460, -1, -1));
 
         jButton5.setFont(new java.awt.Font("Century", 1, 14)); // NOI18N
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Pictures/clear.png"))); // NOI18N
         jButton5.setText("Clear");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 460, -1, -1));
 
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Pictures/background.jpg"))); // NOI18N
@@ -202,13 +217,103 @@ public class UpdateDeleteStudent extends javax.swing.JFrame {
         String id = jTextField1.getText();
         try {
             Connection con = ConnectionDB.getcon();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM student WHERE id = '"+id+"'");
+            Statement st = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            ResultSet rs = st.executeQuery("SELECT *FROM student WHERE id = '"+id+"'");
+            if(rs.first())
+            {
+                jTextField1.setEditable(false);
+                jTextField2.setText(rs.getString(2));
+                jTextField3.setText(rs.getString(3));
+                jTextField4.setText(rs.getString(4));
+                jTextField5.setText(rs.getString(5));
+                jTextField6.setText(rs.getString(6));
+                jTextField7.setText(rs.getString(7));
+                jTextField8.setText(rs.getString(8));
+                jTextField9.setText(rs.getString(9));
+                jTextField9.setEditable(false);
+                if(rs.getString(10).equals("Living"))
+                {
+                    jComboBox1.addItem("Living");
+                    jComboBox1.addItem("Leaved");
+                }
+                else {
+                    jComboBox1.addItem("Leaved");
+                    jComboBox1.addItem("Living");
+                }
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Student does not exist.");
+                clear();
+            }
+            
         }
         catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        clear();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // Update Button
+        String id = jTextField1.getText();
+        String name = jTextField2.getText();
+        String father = jTextField3.getText();
+        String mother = jTextField4.getText();
+        String email = jTextField5.getText();
+        String address = jTextField6.getText();
+        String mobile = jTextField7.getText();
+        String dept = jTextField8.getText();
+        String roomnumber = jTextField9.getText();
+        String status = (String)jComboBox1.getSelectedItem();
+        try {
+            Connection con = ConnectionDB.getcon();
+            Statement st = con.createStatement();
+            if(status.equals("Living"))
+                st.executeUpdate("UPDATE room SET roomstatus = 'Booked' WHERE number = '"+roomnumber+"'");
+            else 
+                st.executeUpdate("UPDATE room SET roomstatus = 'Not Booked' WHERE number = '"+roomnumber+"'");
+            PreparedStatement ps = con.prepareStatement("UPDATE student SET name = ?, father = ?, mother = ?, email = ?, address = ?, mobile = ? , deptintsec = ?, status = ? WHERE id = ?");
+            ps.setString(1, name);
+            ps.setString(2, father);
+            ps.setString(3, mother);
+            ps.setString(4, email);
+            ps.setString(5, address);
+            ps.setString(6, mobile);
+            ps.setString(7, dept);
+            ps.setString(8, status);
+            ps.setString(9, id);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Successfully Updated");
+            clear();
+            jTextField1.setEditable(true);
+        } 
+        catch(Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // Delete Button
+        String id = jTextField1.getText();
+        String roomnumber = jTextField9.getText();
+        try {
+            Connection con = ConnectionDB.getcon();
+            Statement st = con.createStatement();
+            st.executeUpdate("DELETE FROM student WHERE id ='"+id+"'");
+            st.executeUpdate("UPDATE room SET roomstatus = 'Not Booked' WHERE number ='"+roomnumber+"'");
+            JOptionPane.showMessageDialog(null, "Successfully Deleted");
+            clear();
+        }
+        catch(Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments

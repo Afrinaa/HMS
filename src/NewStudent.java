@@ -211,13 +211,13 @@ public class NewStudent extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // Save Button
         String id = jTextField1.getText();
-        String name = jTextField1.getText();
-        String father = jTextField1.getText();
-        String mother = jTextField1.getText();
-        String email = jTextField1.getText();
-        String address = jTextField1.getText();
-        String mobile = jTextField1.getText();
-        String dept = jTextField1.getText();
+        String name = jTextField2.getText();
+        String father = jTextField3.getText();
+        String mother = jTextField4.getText();
+        String email = jTextField5.getText();
+        String address = jTextField6.getText();
+        String mobile = jTextField7.getText();
+        String dept = jTextField8.getText();
         String roomnumber = (String)jComboBox1.getSelectedItem();
         String status = "Living";
         try {
