@@ -285,24 +285,28 @@ public class Home extends javax.swing.JFrame {
         // Living Student
         jButton5.setForeground(Color.red);
         jButton5.setBackground(new Color(255,255,255));
+        new StudentLiving().setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // Leaved Student
         jButton6.setForeground(Color.red);
         jButton6.setBackground(new Color(255,255,255));
+        new LeavedStudent().setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // New Employee
         jButton7.setForeground(Color.red);
         jButton7.setBackground(new Color(255,255,255));
+        new NewEmployee().setVisible(true);
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // Update and Delete Employee
         jButton8.setForeground(Color.red);
         jButton8.setBackground(new Color(255,255,255));
+        new UpdateDeleteEmployee().setVisible(true);
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
